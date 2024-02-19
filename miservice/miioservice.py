@@ -1,10 +1,12 @@
-import os
-import time
 import base64
 import hashlib
 import hmac
 import json
+import os
+import time
+
 from .miaccount import MiAccount
+
 
 # REGIONS = ['cn', 'de', 'i2', 'ru', 'sg', 'us']
 
@@ -19,6 +21,7 @@ class MiIOService:
         def prepare_data(token, cookies):
             cookies['PassportDeviceId'] = token['deviceId']
             return MiIOService.sign_data(uri, data, token['xiaomiio'][0])
+
         headers = {'User-Agent': 'iOS-14.4-6.0.103-iPhone12,3--D7744744F7AF32F0544445285880DD63E47D9BE9-8816080-84A3F44E137B71AE-iPhone', 'x-xiaomi-protocal-flag-cli': 'PROTOCAL-HTTP2'}
         resp = await self.account.mi_request('xiaomiio', self.server + uri, prepare_data, headers)
         if 'result' not in resp:
@@ -81,6 +84,7 @@ class MiIOService:
                     elif type in m:
                         ret[m] = t
                 return ret
+
             import tempfile
             path = os.path.join(tempfile.gettempdir(), 'miservice_miot_specs.json')
             try:

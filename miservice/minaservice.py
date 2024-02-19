@@ -1,7 +1,8 @@
 import json
+import logging
+
 from .miaccount import MiAccount, get_random
 
-import logging
 _LOGGER = logging.getLogger(__package__)
 
 
@@ -23,16 +24,31 @@ class MiNAService:
         result = await self.mina_request('/admin/v2/device_list?master=' + str(master))
         return result.get('data') if result else None
 
-    async def ubus_request(self, deviceId, method, path, message):
+    async def ubus_request(self, device_id, method, path, message):
         message = json.dumps(message)
-        result = await self.mina_request('/remote/ubus', {'deviceId': deviceId, 'message': message, 'method': method, 'path': path})
+        result = await self.mina_request('/remote/ubus', {'deviceId': device_id, 'message': message, 'method': method, 'path': path})
         return result and result.get('code') == 0
 
-    async def text_to_speech(self, deviceId, text):
-        return await self.ubus_request(deviceId, 'text_to_speech', 'mibrain', {'text': text})
+    async def text_to_speech(self, device_id, text):
+        return await self.ubus_request(device_id, 'text_to_speech', 'mibrain', {'text': text})
 
-    async def player_set_volume(self, deviceId, volume):
-        return await self.ubus_request(deviceId, 'player_set_volume', 'mediaplayer', {'volume': volume, 'media': 'app_ios'})
+    async def player_set_volume(self, device_id, volume):
+        return await self.ubus_request(device_id, 'player_set_volume', 'mediaplayer', {'volume': volume, 'media': 'app_ios'})
+
+    async def player_pause(self, device_id):
+        return await self.ubus_request(device_id, "player_play_operation", "mediaplayer", {"action": "pause", "media": "app_ios"})
+
+    async def player_play(self, device_id):
+        return await self.ubus_request(device_id, "player_play_operation", "mediaplayer", {"action": "play", "media": "app_ios"})
+
+    async def player_get_status(self, device_id):
+        return await self.ubus_request(device_id, "player_get_play_status", "mediaplayer", {"media": "app_ios"})
+
+    async def player_set_loop(self, device_id, type=1):
+        return await self.ubus_request(device_id, "player_set_loop", "mediaplayer", {"media": "common", "type": type})
+
+    async def play_by_url(self, device_id, url):
+        return await self.ubus_request(device_id, "player_play_url", "mediaplayer", {"url": url, "type": 0, "media": "app_ios"})
 
     async def send_message(self, devices, devno, message, volume=None):  # -1/0/1...
         result = False

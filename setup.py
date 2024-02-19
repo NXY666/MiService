@@ -9,8 +9,6 @@ if len(sys.argv) == 1:
     os.system('rm -rf dist *.egg-info')
     exit(0)
 
-
-import time
 from pathlib import Path
 from setuptools import setup
 

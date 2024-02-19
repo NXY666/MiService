@@ -1,11 +1,11 @@
-
 import json
+
 from .miioservice import MiIOService
 
 
 def twins_split(string, sep, default=None):
     pos = string.find(sep)
-    return (string, default) if pos == -1 else (string[0:pos], string[pos+1:])
+    return (string, default) if pos == -1 else (string[0:pos], string[pos + 1:])
 
 
 def string_to_value(string):

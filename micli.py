@@ -11,6 +11,7 @@ from miservice import MiAccount, MiNAService, MiIOService, miio_command, miio_co
 
 MISERVICE_VERSION = '2.0.1'
 
+
 def usage():
     print("MiService %s - XiaoMi Cloud Service\n" % MISERVICE_VERSION)
     print("Usage: The following variables must be set:")
@@ -38,6 +39,7 @@ async def main(args):
     except Exception as e:
         result = e
     print(result)
+
 
 if __name__ == '__main__':
     argv = sys.argv
