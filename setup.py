@@ -1,15 +1,14 @@
 #!/usr/bin/env python3
-
 import os
 import sys
 
 if len(sys.argv) == 1:
     os.system('%s sdist' % sys.argv[0])
-    os.system('twine upload dist/*')
     os.system('rm -rf dist *.egg-info')
     exit(0)
 
 from pathlib import Path
+
 from setuptools import setup
 
 from micli import MISERVICE_VERSION
@@ -21,8 +20,8 @@ setup(
     license='MIT',
     author='Yonsm',
     author_email='Yonsm@qq.com',
-    url='https://github.com/Yonsm/MiService',
-    long_description=Path('README.md').read_text(),
+    url='https://github.com/NXY666/MiService',
+    long_description=Path('README.md').read_text(encoding='utf-8'),
     long_description_content_type='text/markdown',
     packages=['miservice'],
     scripts=['micli.py'],
